@@ -19,7 +19,7 @@ It implements [RFC 2616 sections 14.1–4](http://www.w3.org/Protocols/rfc2616/r
 ring-middleware-accept is available in [Clojars](https://clojars.org/ring-middleware-accept). Add it as a dependency in your Leiningen project's `project.clj`:
 
 ```clojure
-[ring-middleware-accept "1.0.0"]
+[ring-middleware-accept "1.0.1"]
 ```
 
 or to your Maven project's `pom.xml`:
@@ -28,7 +28,7 @@ or to your Maven project's `pom.xml`:
 <dependency>
 	<groupId>ring-middleware-accept</groupId>
 	<artifactId>ring-middleware-accept</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 </dependency>
 ```
 

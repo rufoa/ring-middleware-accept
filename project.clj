@@ -1,4 +1,4 @@
-(defproject ring-middleware-accept "1.0.0"
+(defproject ring-middleware-accept "1.0.1"
   :description "Content negotiation middleware for Ring"
   :url "http://github.com/rufoa/ring-middleware-accept"
   :license {:name "Eclipse Public License"

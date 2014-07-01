@@ -3,9 +3,10 @@
 (defn- max-pos-key
 	"like max-key but returns nil if no candidates are positive under score-fn"
 	[cands score-fn]
-	(let [arg-max (apply max-key score-fn cands)]
-		(if (pos? (score-fn arg-max))
-			arg-max)))
+	(when-not (empty? cands)
+		(let [arg-max (apply max-key score-fn cands)]
+			(if (pos? (score-fn arg-max))
+				arg-max))))
 
 (defn- match
 	[offered prefs match-fn]
