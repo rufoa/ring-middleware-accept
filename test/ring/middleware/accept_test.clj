@@ -25,8 +25,8 @@
 	:mime       {"accept" "a/a,a/*;q=0"}              ["a/a"]               "a/a"
 	:mime       {"accept" "a/*,*/*;q=0"}              ["a/a"]               "a/a"
 	:mime       {"accept" "a/a,a/*;q=0"}              ["a/b"]               nil
-	:encoding   {"accept-encoding" "a"}               ["a" :alias :a]       :a
-	:encoding   {"accept-encoding" "b"}               ["a" :alias :a]       nil
+	:encoding   {"accept-encoding" "a"}               ["a" :as :a]          :a
+	:encoding   {"accept-encoding" "b"}               ["a" :as :a]          nil
 	:encoding   {"accept-encoding" "a,b;q=0.5"}       ["a" :qs 0.1, "b"]    "b"
 	:encoding   {"accept-encoding" "a;q=0.5,b"}       ["a", "b" :qs 0.1]    "a"
 	:encoding   {"accept-encoding" "a"}               ["a" :qs 0]           nil

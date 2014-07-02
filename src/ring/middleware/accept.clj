@@ -15,7 +15,7 @@
 				(max-pos-key prefs #(match-fn input (:name %))))]
 		(if (seq offered)
 			(let [result (max-pos-key offered #(* (:qs % 1) (:q (most-applicable-rule (:name %)) 0)))]
-				(or (:alias result) (:name result))))))
+				(or (:as result) (:name result))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -80,7 +80,7 @@
 		(cond
 			(empty? unprocessed)
 				(if (empty? cur) res (conj res cur))
-			(some (partial = a) [:alias :qs])
+			(some (partial = a) [:as :qs])
 				(recur res (assoc cur a b) (drop 2 unprocessed))
 			:else
 				(recur (if (empty? cur) res (conj res cur)) {:name a} (rest unprocessed)))))
