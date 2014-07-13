@@ -63,7 +63,7 @@ If the client cannot accept any of the offered types, some of the map entries wi
 	;...
 	)
 
-(defroutes app
+(defroutes routes
 	(GET "/greeting" {accept :accept}
 		(case (:language accept)
 			"en" "hello"
