@@ -34,7 +34,7 @@ or to your Maven project's `pom.xml`:
 
 ## Use ##
 
-ring-middleware-accept exposes a single public function, `wrap-accept`. It takes two arguments: the handler to be wrapped, and a map of the content types offered by the handler.
+ring-middleware-accept exposes a single public function, `wrap-accept`, in the namespace `ring.middleware.accept`. This function takes two arguments: the handler to be wrapped, and a map of the content types offered by the handler.
 
 For example:
 
@@ -58,6 +58,11 @@ If the client cannot accept any of the offered types, some of the map entries wi
 ### Simple example ###
 
 ```clojure
+(ns example.web
+	(:require [ring.middleware.accept :refer [wrap-accept]])
+	;...
+	)
+
 (defroutes app
 	(GET "/greeting" {accept :accept}
 		(case (:language accept)
