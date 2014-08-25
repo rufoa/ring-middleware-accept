@@ -1,20 +1,30 @@
 (ns ring.middleware.accept)
 
-(defn- max-pos-key
-	"like max-key but returns nil if no candidates are positive under score-fn"
-	[cands score-fn]
+(defn- max-key-multi
+	"like max-key but with tie-breaking"
+	[cands & score-fns]
 	(when-not (empty? cands)
-		(let [arg-max (apply max-key score-fn cands)]
-			(if (pos? (score-fn arg-max))
-				arg-max))))
+		(let [score (apply juxt score-fns)]
+			(reduce #(if (pos? (compare (score %1) (score %2))) %1 %2) cands))))
+
+(defn- max-pos-key-multi
+	"like max-key-multi but disqualify any candidates that give negative scores"
+	[cands & score-fns]
+	(let [score (apply juxt score-fns)]
+		(apply max-key-multi
+			(filter #(every? pos? (score %)) cands)
+			score-fns)))
 
 (defn- match
 	[offered prefs match-fn]
 	(let [most-applicable-rule
 			(fn [input]
-				(max-pos-key prefs #(match-fn input (:name %))))]
+				(max-pos-key-multi prefs #(match-fn input (:name %))))]
 		(if (seq offered)
-			(let [result (max-pos-key offered #(* (:qs % 1) (:q (most-applicable-rule (:name %)) 0)))]
+			(let
+				[result (max-pos-key-multi offered
+					#(if-let [rule (most-applicable-rule (:name %))] (* (:qs % 1) (:q rule 0)) -1)
+					#(if-let [rule (most-applicable-rule (:name %))] (match-fn (:name %) (:name rule)) -1))]
 				(or (:as result) (:name result))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

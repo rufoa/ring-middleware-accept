@@ -25,6 +25,10 @@
 	:mime       {"accept" "a/a,a/*;q=0"}              ["a/a"]               "a/a"
 	:mime       {"accept" "a/*,*/*;q=0"}              ["a/a"]               "a/a"
 	:mime       {"accept" "a/a,a/*;q=0"}              ["a/b"]               nil
+	:mime       {"accept" "a/a,*/*"}                  ["a/a" "b/b"]         "a/a"
+	:mime       {"accept" "a/a,*/*"}                  ["b/b" "a/a"]         "a/a"
+	:language   {"accept-language" "en-gb,en"}        ["en-gb" "en-us"]     "en-gb"
+	:language   {"accept-language" "en-gb,en"}        ["en-us" "en-gb"]     "en-gb"
 	:encoding   {"accept-encoding" "a"}               ["a" :as :a]          :a
 	:encoding   {"accept-encoding" "b"}               ["a" :as :a]          nil
 	:encoding   {"accept-encoding" "a,b;q=0.5"}       ["a" :qs 0.1, "b"]    "b"
