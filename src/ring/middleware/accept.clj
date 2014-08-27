@@ -45,7 +45,9 @@
 (defn- lang-match
 	[cand pattern]
 	(let
-		[cand-len (count cand) pattern-len (count pattern)]
+		[cand (.toLowerCase cand)
+		 pattern (.toLowerCase pattern)
+		 cand-len (count cand) pattern-len (count pattern)]
 		(if
 			(or (= cand pattern)
 				(= pattern "*")
