@@ -55,6 +55,18 @@
 					(= (str pattern "-") (subs cand 0 (+ pattern-len 1)))))
 			pattern-len 0))) ; prefer closer match
 
+(defn- lang-post
+	"for all accepted langs xx-yy, also accept the parent lang xx with very low q-value unless already present
+	https://httpd.apache.org/docs/2.2/content-negotiation.html#exceptions"
+	[prefs]
+	(reduce
+		(fn [ps p] (if (not-any? #(= (:name %1) p) prefs) (conj ps {:name p :q 0.0009}) ps))
+		prefs
+		(map
+			#(first (clojure.string/split (:name %) #"-"))
+			(filter #(not (== (:q %) 0)) prefs)
+			)))
+
 (defn- charset-post
 	"If no * is present in an Accept-Charset field, then [...] ISO-8859-1 [...] gets a quality value of 1 if not explicitly mentioned.
 	http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.2"
@@ -109,5 +121,5 @@
 				(assoc-in-once [:accept :mime]     (match* mime     (headers "accept" "*/*")               mime-match  identity))
 				(assoc-in-once [:accept :charset]  (match* charset  (headers "accept-charset" "*")         exact-match charset-post))
 				(assoc-in-once [:accept :encoding] (match* encoding (headers "accept-encoding" "identity") exact-match encoding-post))
-				(assoc-in-once [:accept :language] (match* language (headers "accept-language" "*")        lang-match  identity))
+				(assoc-in-once [:accept :language] (match* language (headers "accept-language" "*")        lang-match  lang-post))
 				(handler)))))

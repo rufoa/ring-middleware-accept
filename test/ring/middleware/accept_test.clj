@@ -15,7 +15,6 @@
 	:mime       {"accept" "a/*"}                      ["b/b"]               nil
 	:mime       {"accept" "*/*"}                      ["b/b"]               "b/b"
 	:language   {"accept-language" "en-gb"}           ["en-gb"]             "en-gb"
-	:language   {"accept-language" "en-gb"}           ["en-us"]             nil
 	:language   {"accept-language" "en"}              ["en-gb"]             "en-gb"
 	:language   {"accept-language" "en"}              ["fr-ca"]             nil
 	:language   {"accept-language" "*"}               ["en-gb"]             "en-gb"
@@ -42,4 +41,8 @@
 	:charset    {}                                    ["iso-8859-1"]        "iso-8859-1"
 	:charset    {"accept-charset" "iso-8859-1;q=0"}   ["iso-8859-1"]        nil
 	:charset    {"accept-charset" "*;q=0"}            ["iso-8859-1"]        nil
-	:charset    {"accept-charset" ""}                 ["iso-8859-1"]        "iso-8859-1")
+	:charset    {"accept-charset" ""}                 ["iso-8859-1"]        "iso-8859-1"
+	:language   {"accept-language" "en-gb"}           ["en"]                "en"
+	:language   {"accept-language" "en-gb,en;q=0"}    ["en"]                nil
+	:language   {"accept-language" "en-gb;q=0"}       ["en"]                nil
+	:language   {"accept-language" "en-gb,fr;q=0.9"}  ["en" "fr"]           "fr")
