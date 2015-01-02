@@ -43,7 +43,7 @@
 			(clojure.string/split pattern #"/" 2))))
 
 (defn- lang-match
-	[cand pattern]
+	[^String cand ^String pattern]
 	(let
 		[cand (.toLowerCase cand)
 		 pattern (.toLowerCase pattern)
