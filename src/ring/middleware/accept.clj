@@ -115,11 +115,16 @@
 			(fn [offered accepts matcher-fn post-fn]
 				(match (parse-offered offered) (post-fn (parse-accepts accepts)) matcher-fn))
 			assoc-in-once
-			#(if (nil? (get-in %1 %2)) (assoc-in %1 %2 %3) %1)]
-		(fn [{headers :headers :as request}]
-			(-> request
-				(assoc-in-once [:accept :mime]     (match* mime     (headers "accept" "*/*")               mime-match  identity))
-				(assoc-in-once [:accept :charset]  (match* charset  (headers "accept-charset" "*")         exact-match charset-post))
-				(assoc-in-once [:accept :encoding] (match* encoding (headers "accept-encoding" "identity") exact-match encoding-post))
-				(assoc-in-once [:accept :language] (match* language (headers "accept-language" "*")        lang-match  lang-post))
-				(handler)))))
+			#(if (nil? (get-in %1 %2)) (assoc-in %1 %2 %3) %1)
+			wrapped (fn
+								[{headers :headers :as request}]
+								(-> request
+									(assoc-in-once [:accept :mime] (match* mime (headers "accept" "*/*") mime-match identity))
+									(assoc-in-once [:accept :charset] (match* charset (headers "accept-charset" "*") exact-match charset-post))
+									(assoc-in-once [:accept :encoding] (match* encoding (headers "accept-encoding" "identity") exact-match encoding-post))
+									(assoc-in-once [:accept :language] (match* language (headers "accept-language" "*") lang-match lang-post))
+									(handler)))]
+		(fn
+			([request] (wrapped request))
+			([request respond _]
+			 (respond (wrapped request))))))
